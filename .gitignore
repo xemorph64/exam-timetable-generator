@@ -1,0 +1,5 @@
+build/
+timetable
+timetable_single
+timetable_data.txt
+*.tmp
