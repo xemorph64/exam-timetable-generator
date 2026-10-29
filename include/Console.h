@@ -43,5 +43,9 @@ public:
 
 private:
     std::string paint(const std::string& text, const char* code) const;
+#ifdef __EMSCRIPTEN__
+    bool colors_ = true;  // the web terminal always renders ANSI colours
+#else
     bool colors_ = false;
+#endif
 };

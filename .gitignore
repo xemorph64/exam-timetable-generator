@@ -3,3 +3,6 @@ timetable
 timetable_single
 timetable_data.txt
 *.tmp
+.vercel
+.env*
+.claude/

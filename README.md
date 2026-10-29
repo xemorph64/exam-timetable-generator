@@ -1,6 +1,8 @@
 # Smart University Examination Timetable Generator
 
 A C++17 console application that schedules university exams with no student clashes, using as few time slots as possible.
+**Live demo:** https://exam-timetable-generator-eta.vercel.app runs the same C++ program compiled to WebAssembly in your browser.
+
 It models the problem as **graph colouring** and solves it with **Greedy**, **DSATUR**, **Backtracking** and **Branch and Bound**.
 
 | Concept   | In the graph                                  |
@@ -33,6 +35,9 @@ dsa_prj/
 │   ├── sample_a.txt          small college
 │   ├── sample_b.txt          crown graph (greedy 3 vs optimal 2)
 │   └── sample_c.txt          30-subject stress test
+├── web/                      browser version (index.html, app.js, style.css,
+│                             timetable.js + timetable.wasm built by `make web`)
+├── vercel.json               serves web/ as a static site on Vercel
 ├── tools/make_single.sh      regenerates main_single.cpp
 └── docs/REPORT.md            dry runs, analysis, viva questions, report outline
 ```
@@ -69,6 +74,16 @@ After editing anything in `include/` or `src/`, run `make single` to regenerate 
 
 Both builds compile with **zero warnings** using `-Wall -Wextra`, and also using `-Wpedantic -Wshadow`.
 The self-tests run 30 checks, and all of them pass.
+
+### Web version
+
+`make web` compiles the same sources to WebAssembly with Emscripten. It runs through the official `emscripten/emsdk` Docker image, so there's nothing to install.
+In the browser, `Console::readLine` waits for a line from the page (Emscripten's Asyncify). Everything else is unchanged.
+The output in `web/` is plain static files:
+
+```bash
+npx vercel deploy --prod
+```
 
 ## 3. Menu
 

@@ -6,6 +6,19 @@
 #include <iostream>
 #include <string>
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+
+#include <cstdlib>
+
+// Browser build (web/): the page supplies each line through Module.readLine(),
+// which returns a Promise. Asyncify suspends the C++ stack while it waits.
+EM_ASYNC_JS(char*, web_read_line, (), {
+    const line = await Module.readLine();
+    return stringToNewUTF8(line);
+});
+#endif
+
 namespace {
 
 const char* const kSlotPalette[] = {"\033[36m", "\033[33m", "\033[35m",
@@ -35,8 +48,14 @@ bool parseWholeNumber(const std::string& text, long long& value) {
 
 std::string Console::readLine(const std::string& prompt) {
     std::cout << prompt << std::flush;
+#ifdef __EMSCRIPTEN__
+    char* raw = web_read_line();
+    const std::string line(raw);
+    std::free(raw);
+#else
     std::string line;
     if (!std::getline(std::cin, line)) throw InputClosed();
+#endif
     return trimmed(line);
 }
 
