@@ -3,39 +3,57 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Exam Timetable Generator</title>
-  <meta name="description" content="Graph-colouring exam timetable generator (Greedy, DSATUR, Backtracking, Branch and Bound) - the C++17 program compiled to WebAssembly.">
-  <link rel="stylesheet" href="style.css">
+  <title>Slotwise — Conflict-Free Exam Scheduling</title>
+  <meta name="description" content="Slotwise schedules exams with zero student clashes using graph colouring — Greedy, DSATUR, Backtracking and Branch and Bound running in a C++17 engine compiled to WebAssembly.">
+  <meta name="theme-color" content="#0e1020">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%235046e5'/%3E%3Crect x='7' y='8' width='18' height='4' rx='2' fill='white'/%3E%3Crect x='7' y='14' width='12' height='4' rx='2' fill='white' opacity='.8'/%3E%3Crect x='7' y='20' width='15' height='4' rx='2' fill='white' opacity='.6'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/slotwise.css">
+  <script>
+    try { const t = localStorage.getItem("slotwise-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch {}
+  </script>
 </head>
 <body>
-  <header class="bar">
-    <div>
-      <h1>Exam Timetable Generator</h1>
-      <p>Graph colouring &middot; Greedy &middot; DSATUR &middot; Backtracking &middot; Branch and Bound &mdash; the real C++17 program, running in your browser via WebAssembly.</p>
+  <a class="skip-link" href="#view">Skip to content</a>
+  <div class="app" id="app">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--accent)"/><rect x="7" y="8" width="18" height="4" rx="2" fill="#fff"/><rect x="7" y="14" width="12" height="4" rx="2" fill="#fff" opacity=".8"/><rect x="7" y="20" width="15" height="4" rx="2" fill="#fff" opacity=".6"/></svg>
+        <div>
+          <div class="brand-name">Slotwise</div>
+          <div class="brand-tag">Conflict-free exam scheduling</div>
+        </div>
+      </div>
+      <nav class="nav" id="nav" aria-label="Main"></nav>
+      <div class="sidebar-foot">
+        <button type="button" class="nav-item" id="console-toggle" aria-controls="console" aria-expanded="false"></button>
+        <div class="engine-pill" id="engine-pill" role="status"></div>
+        <div class="sidebar-row">
+          <button type="button" class="side-btn" id="theme-toggle"></button>
+          <a class="side-btn" id="repo-link" href="https://github.com/xemorph64/exam-timetable-generator" target="_blank" rel="noopener"></a>
+        </div>
+      </div>
+    </aside>
+    <div class="scrim" id="scrim" hidden></div>
+
+    <div class="workspace">
+      <header class="topbar">
+        <button type="button" class="icon-btn menu-btn" id="menu-btn" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false"></button>
+        <div class="topbar-title">
+          <h1 id="page-title">Overview</h1>
+          <span class="dataset-chip" id="dataset-chip"></span>
+        </div>
+        <div class="topbar-status" id="topbar-status"></div>
+      </header>
+      <div class="progress" id="progress" aria-hidden="true"></div>
+      <div id="banner"></div>
+      <main id="view" class="view" tabindex="-1"></main>
+      <section class="console" id="console" aria-label="Engine console" hidden></section>
     </div>
-    <a class="repo" href="https://github.com/xemorph64/exam-timetable-generator" target="_blank" rel="noopener">Source on GitHub</a>
-  </header>
-
-  <main class="terminal" id="terminal" aria-live="polite">
-    <pre id="output"><span class="dim">Loading the program...</span>
-</pre>
-  </main>
-
-  <form class="input-bar" id="form" autocomplete="off">
-    <span class="caret" aria-hidden="true">&gt;</span>
-    <input id="input" type="text" inputmode="text" spellcheck="false" aria-label="Program input" placeholder="Type a menu number or answer, then Enter" disabled>
-    <button type="submit" id="send" disabled>Send</button>
-  </form>
-  <nav class="chips" aria-label="Quick answers">
-    <button type="button" data-send="">Enter</button>
-    <button type="button" data-send="y">y</button>
-    <button type="button" data-send="n">n</button>
-    <span class="hint">Try: <code>11</code> &rarr; <code>2</code> (Sample B), then <code>9</code> to compare greedy vs optimal.</span>
-    <button type="button" id="restart" class="restart" hidden>Restart program</button>
-  </nav>
-
-  <script src="app.js"></script>
-  <script src="timetable.js"></script>
-  <script>startTimetable();</script>
+  </div>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

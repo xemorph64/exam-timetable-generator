@@ -70,10 +70,27 @@ std::vector<std::string> wrapItems(const std::string& prefix, const std::vector<
 // ----------------------------------------------------------------------------
 int App::run() {
     try {
+        bool showMenuNext = true;
+        bool quietPrompt = false;
         while (true) {
-            showMenu();
-            const int choice = console_.readInt("Enter choice (1-16): ", 1, 16);
-            if (!handleChoice(choice)) break;
+            if (showMenuNext) showMenu();
+            // After a machine command the prompt is not repeated, so GUI
+            // traffic does not flood a human reading the same console.
+            const std::string line = console_.readLine(quietPrompt ? "" : "Enter choice (1-16): ");
+            quietPrompt = false;
+            showMenuNext = false;
+            if (!line.empty() && line[0] == '@') {
+                machine_.handle(line, std::cout);
+                quietPrompt = true;
+                continue;
+            }
+            long long choice = 0;
+            if (!Console::parseNumber(line, 1, 16, choice)) {
+                std::cout << console_.bad("  Please enter a whole number between 1 and 16.") << '\n';
+                continue;
+            }
+            if (!handleChoice(static_cast<int>(choice))) break;
+            showMenuNext = true;
         }
     } catch (const InputClosed&) {
         std::cout << "\nInput closed - exiting.\n";

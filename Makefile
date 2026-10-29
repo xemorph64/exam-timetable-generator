@@ -21,7 +21,7 @@ TARGET   := timetable
 # Emscripten runs from its official Docker image, so nothing else is installed.
 EMSDK_IMAGE := emscripten/emsdk:3.1.74
 WEBFLAGS := -std=c++17 -O2 -Iinclude -fexceptions -sASYNCIFY -sASYNCIFY_STACK_SIZE=65536 \
-            -sMODULARIZE -sEXPORT_NAME=createTimetable -sENVIRONMENT=web -sEXIT_RUNTIME=1 \
+            -sMODULARIZE -sEXPORT_NAME=createTimetable -sENVIRONMENT=web,worker -sEXIT_RUNTIME=1 \
             -sALLOW_MEMORY_GROWTH -sEXPORTED_RUNTIME_METHODS=FS \
             '-sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=$$stringToNewUTF8'
 

@@ -72,12 +72,15 @@ std::string Console::readText(const std::string& prompt, const std::string& what
     }
 }
 
+bool Console::parseNumber(const std::string& text, long long min, long long max,
+                          long long& value) {
+    return parseWholeNumber(text, value) && value >= min && value <= max;
+}
+
 long long Console::readLong(const std::string& prompt, long long min, long long max) {
     while (true) {
         long long value = 0;
-        if (parseWholeNumber(readLine(prompt), value) && value >= min && value <= max) {
-            return value;
-        }
+        if (parseNumber(readLine(prompt), min, max, value)) return value;
         std::cout << bad("  Please enter a whole number between " + std::to_string(min) +
                          " and " + std::to_string(max) + ".")
                   << '\n';

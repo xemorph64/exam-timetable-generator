@@ -5,8 +5,8 @@
 set -e
 cd "$(dirname "$0")/.."
 
-HEADERS="Models.h Graph.h Coloring.h Backtracking.h BranchAndBound.h Scheduler.h Samples.h Console.h Tests.h App.h"
-SOURCES="Graph.cpp Coloring.cpp Backtracking.cpp BranchAndBound.cpp Scheduler.cpp Samples.cpp Console.cpp Tests.cpp App.cpp main.cpp"
+HEADERS="Models.h Graph.h Coloring.h Backtracking.h BranchAndBound.h Scheduler.h Samples.h Console.h Tests.h MachineApi.h App.h"
+SOURCES="Graph.cpp Coloring.cpp Backtracking.cpp BranchAndBound.cpp Scheduler.cpp Samples.cpp Console.cpp Tests.cpp MachineApi.cpp App.cpp main.cpp"
 
 cat <<'EOF'
 // =============================================================================

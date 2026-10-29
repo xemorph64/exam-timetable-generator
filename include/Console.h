@@ -25,6 +25,9 @@ public:
     int readInt(const std::string& prompt, int min, int max);
     long long readLong(const std::string& prompt, long long min, long long max);
     bool readYesNo(const std::string& prompt);
+    // Whole-line integer parse with range check (no stream state involved).
+    static bool parseNumber(const std::string& text, long long min, long long max,
+                            long long& value);
     void pause();
 
     void toggleColors() { colors_ = !colors_; }

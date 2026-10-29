@@ -5,6 +5,7 @@
 
 #include "Coloring.h"
 #include "Console.h"
+#include "MachineApi.h"
 #include "Scheduler.h"
 
 #include <string>
@@ -57,4 +58,5 @@ private:
 
     ExamScheduler scheduler_;
     Console console_;
+    MachineApi machine_{scheduler_};  // "@..." lines from the web UI
 };

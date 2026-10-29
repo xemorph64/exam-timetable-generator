@@ -1,7 +1,8 @@
 # Smart University Examination Timetable Generator
 
 A C++17 console application that schedules university exams with no student clashes, using as few time slots as possible.
-**Live demo:** https://exam-timetable-generator-eta.vercel.app runs the same C++ program compiled to WebAssembly in your browser.
+
+**Live demo — Slotwise:** https://exam-timetable-generator-eta.vercel.app is a web app on top of the same C++ engine, compiled to WebAssembly.
 
 It models the problem as **graph colouring** and solves it with **Greedy**, **DSATUR**, **Backtracking** and **Branch and Bound**.
 
@@ -75,10 +76,27 @@ After editing anything in `include/` or `src/`, run `make single` to regenerate 
 Both builds compile with **zero warnings** using `-Wall -Wextra`, and also using `-Wpedantic -Wshadow`.
 The self-tests run 30 checks, and all of them pass.
 
-### Web version
+### Web version (Slotwise)
 
-`make web` compiles the same sources to WebAssembly with Emscripten. It runs through the official `emscripten/emsdk` Docker image, so there's nothing to install.
-In the browser, `Console::readLine` waits for a line from the page (Emscripten's Asyncify). Everything else is unchanged.
+`web/` is **Slotwise**, a browser front end for the unchanged C++ engine. It has five pages:
+
+* **Overview** — engine status and dataset statistics.
+* **Timetable** — the day × session grid, with hover-to-inspect conflicts.
+* **Conflict graph** — interactive and coloured by slot.
+* **Algorithm lab** — greedy vs optimal side by side, plus every algorithm in one table.
+* **Data** — manage subjects, batches and slots, and import/export files.
+
+The **Engine console** gives the original menu.
+
+How it connects:
+
+* `make web` compiles `src/*.cpp` to WebAssembly with Emscripten, running in the `emscripten/emsdk` Docker image.
+* The engine runs in a Web Worker (`web/worker.js`) and still talks over stdin/stdout. In the browser, `Console::readLine` waits for a line from the page using Emscripten's Asyncify.
+* The GUI uses a small **machine protocol** on that same stdin/stdout (`include/MachineApi.h`). At the main-menu prompt, a line `@<id> <verb> [payload]` returns exactly one `@@BEGIN <id> / {json} / @@END <id>` block.
+* Verbs: `state`, `run greedy|backtrack|bnb`, `compare`, `sample`, `subject.add`, `batch.add`, `slot.set`, `save`/`load`, `tests` and more.
+* Every number the GUI shows comes from these responses. Nothing is computed in JavaScript.
+* The protocol works in the terminal build too, for example `printf '@1 sample b\n@2 compare\n14\n' | ./timetable`.
+
 The output in `web/` is plain static files:
 
 ```bash
