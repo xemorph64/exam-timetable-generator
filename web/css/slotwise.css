@@ -310,7 +310,7 @@ select.input { padding-right: 6px; }
 .slot-bars li { display: grid; grid-template-columns: 28px 1fr 26px; gap: 10px; align-items: center; font-size: 12px; }
 .slot-bars-label { font-family: var(--mono); color: var(--muted); }
 .slot-bars-track { height: 8px; border-radius: 4px; background: var(--surface-3); overflow: hidden; }
-.slot-bars-fill { display: block; height: 100%; border-radius: 0 4px 4px 0; transition: width 0.4s var(--ease); }
+.slot-bars-fill { display: block; height: 100%; border-radius: 0 4px 4px 0; }
 .slot-bars-value { text-align: right; font-variant-numeric: tabular-nums; color: var(--text-2); }
 .versus { display: flex; align-items: center; gap: 22px; }
 .versus > div { display: flex; flex-direction: column; }
@@ -361,12 +361,12 @@ details.card { gap: 0; }
 .exam-list { display: flex; flex-direction: column; gap: 5px; }
 .exam {
   display: grid; grid-template-columns: auto 1fr; column-gap: 8px; text-align: left; width: 100%;
-  padding: 7px 9px 7px 11px; border-radius: 7px; border: 1px solid var(--border); background: var(--surface);
+  padding: 7px 9px; border-radius: 7px; border: 1px solid var(--border); background: var(--surface);
   font: inherit; color: inherit; cursor: default; position: relative; box-shadow: var(--shadow-sm);
   transition: opacity 0.15s var(--ease), border-color 0.15s, box-shadow 0.15s, transform 0.15s var(--ease);
 }
-.exam::before { content: ""; position: absolute; left: 0; top: 6px; bottom: 6px; width: 3px; border-radius: 0 3px 3px 0; background: var(--slot); }
-.exam-code { font: 600 12.5px var(--mono); }
+.exam-code { font: 600 12.5px var(--mono); display: inline-flex; align-items: center; gap: 6px; }
+.exam-code::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--slot); }
 .exam-name { font-size: 12.5px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .exam-meta { grid-column: 1 / -1; font-size: 11.5px; color: var(--muted); }
 .board-wrap.inspecting .exam { opacity: 0.38; }
@@ -455,7 +455,7 @@ svg.graph { display: block; width: 100%; height: auto; touch-action: none; user-
 .bar-cell { min-width: 170px; }
 .slotbar { display: flex; align-items: center; gap: 10px; }
 .slotbar-track { position: relative; flex: 1; height: 10px; border-radius: 3px; background: var(--surface-3); }
-.slotbar-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 4px 4px 0; background: var(--accent); transition: width 0.4s var(--ease); }
+.slotbar-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 4px 4px 0; background: var(--accent); }
 .slotbar-lb { position: absolute; top: -4px; bottom: -4px; width: 0; border-left: 2px dashed var(--text-2); }
 .slotbar strong { font-variant-numeric: tabular-nums; min-width: 18px; }
 .bar-none { font-size: 12.5px; color: var(--muted); }
@@ -600,5 +600,5 @@ svg.graph { display: block; width: 100%; height: auto; touch-action: none; user-
   .progress.on::after { animation: none; width: 100%; opacity: 0.6; }
 }
 @media (forced-colors: active) {
-  .slot-tag i, .exam::before { forced-color-adjust: none; }
+  .slot-tag i, .exam-code::before { forced-color-adjust: none; }
 }
